@@ -1,0 +1,2106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Last Frontier Collection</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --gold: #9A6B28;
+  --gold-mid: #B8852E;
+  --gold-light: #D4A84C;
+  --gold-pale: #F5EDD8;
+  --white: #FFFFFF;
+  --off-white: #FAFAF7;
+  --warm-50: #F7F4EF;
+  --warm-100: #F0EBE2;
+  --warm-200: #E4DCD0;
+  --warm-300: #CBC0B0;
+  --warm-400: #A89880;
+  --warm-500: #7A6858;
+  --warm-600: #4A3C30;
+  --ink: #1C1510;
+  --ink-mid: #3A2E24;
+  --forest-bg: #EEF4EE;
+  --forest-border: #C8DEC8;
+  --forest-text: #2A5230;
+  --salmon-bg: #FBF0EC;
+  --salmon-border: #E8C4B4;
+  --salmon-text: #8A3020;
+  --ocean-bg: #EBF2F8;
+  --ocean-border: #B8D4E8;
+  --ocean-text: #1A4870;
+  --shadow-sm: 0 1px 4px rgba(28,21,16,0.06);
+  --shadow-md: 0 4px 16px rgba(28,21,16,0.08);
+  --shadow-lg: 0 12px 40px rgba(28,21,16,0.10);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--off-white); color: var(--ink); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--warm-100); }
+::-webkit-scrollbar-thumb { background: var(--gold-mid); border-radius: 2px; }
+
+/* ─── PAGE SYSTEM ─────────────────────── */
+.page { display: none; animation: fadeIn 0.35s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ─── NAV ──────────────────────────────── */
+.nav-wrapper {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(255,255,255,0.97);
+  border-bottom: 1px solid var(--warm-200);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
+}
+.nav-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 48px 12px;
+  border-bottom: 1px solid var(--warm-100);
+}
+.nav-brand {
+  display: flex; flex-direction: column; gap: 2px;
+}
+.nav-brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; color: var(--ink);
+  letter-spacing: 0.02em;
+}
+.nav-brand-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--gold);
+}
+.nav-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gold); border: 1px solid rgba(154,107,40,0.3);
+  padding: 5px 12px; border-radius: 2px;
+}
+.nav-tabs {
+  display: flex; align-items: stretch; overflow-x: auto;
+  padding: 0 48px;
+  gap: 0;
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tab {
+  display: flex; align-items: center; gap: 7px;
+  padding: 12px 18px;
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--warm-500); cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s; font-weight: 500;
+  background: none; border-top: none; border-left: none; border-right: none;
+  font-family: 'Inter', sans-serif;
+}
+.nav-tab:hover { color: var(--ink); }
+.nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.nav-tab-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ─── SHARED COMPONENTS ────────────────── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+.section { padding: 80px 0; }
+.section-sm { padding: 56px 0; }
+
+.eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.eyebrow::after { content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--gold-light); opacity: 0.5; }
+
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.05; color: var(--ink);
+  margin-bottom: 16px;
+}
+.page-subtitle {
+  font-size: 16px; line-height: 1.7;
+  color: var(--warm-500); max-width: 560px;
+  font-weight: 300;
+}
+.divider { height: 1px; background: var(--warm-200); margin: 0; }
+.gold-line { height: 2px; width: 48px; background: var(--gold-light); margin-bottom: 24px; }
+
+/* cards */
+.card {
+  background: var(--white);
+  border: 1px solid var(--warm-200);
+  border-radius: 6px;
+  padding: 36px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s;
+}
+.card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  font-weight: 600; padding: 4px 10px; border-radius: 3px;
+  font-family: 'Space Mono', monospace;
+}
+.chip-forest { background: var(--forest-bg); color: var(--forest-text); border: 1px solid var(--forest-border); }
+.chip-salmon { background: var(--salmon-bg); color: var(--salmon-text); border: 1px solid var(--salmon-border); }
+.chip-ocean { background: var(--ocean-bg); color: var(--ocean-text); border: 1px solid var(--ocean-border); }
+.chip-gold { background: var(--gold-pale); color: var(--gold); border: 1px solid rgba(154,107,40,0.25); }
+
+.stat-block { display: flex; flex-direction: column; gap: 4px; }
+.stat-value { font-family: 'Playfair Display', serif; font-size: 40px; color: var(--ink); line-height: 1; }
+.stat-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-400); }
+
+.feature-list { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+.feature-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 13px; color: var(--warm-500); line-height: 1.5;
+}
+.feature-bullet {
+  width: 16px; height: 1px; background: var(--gold-light);
+  flex-shrink: 0; margin-top: 9px;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--ink); color: var(--white);
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  font-weight: 600; padding: 14px 28px; border-radius: 3px;
+  cursor: pointer; border: none; font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+}
+.btn-primary:hover { background: var(--gold); box-shadow: var(--shadow-md); }
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: transparent; color: var(--ink);
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  font-weight: 600; padding: 13px 28px; border-radius: 3px;
+  cursor: pointer; border: 1px solid var(--warm-300); font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+/* hero banner */
+.page-hero {
+  padding: 72px 0 64px;
+  border-bottom: 1px solid var(--warm-200);
+  position: relative; overflow: hidden;
+}
+.page-hero-bg {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(154,107,40,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(154,107,40,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* grid helpers */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+/* ─────────────────────────────────────────
+   HOME PAGE
+───────────────────────────────────────── */
+.home-hero {
+  min-height: 88vh;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start;
+  padding: 100px 48px 80px;
+  position: relative; overflow: hidden;
+  max-width: 100%;
+}
+.home-hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 0% 60%, rgba(195,222,195,0.35) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 20%, rgba(190,218,238,0.35) 0%, transparent 55%),
+    linear-gradient(165deg, #F8F6F1 0%, #F2EDE5 50%, #F5F2EE 100%);
+}
+.home-hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(154,107,40,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(154,107,40,0.05) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+.home-hero-content { position: relative; z-index: 2; max-width: 760px; }
+.home-hero-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 24px;
+  display: flex; align-items: center; gap: 14px;
+}
+.home-hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--gold-light); }
+.home-hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(52px, 8vw, 108px);
+  line-height: 0.95; color: var(--ink);
+  margin-bottom: 12px;
+}
+.home-hero-title em { font-style: italic; color: var(--gold); }
+.home-hero-sub {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(18px, 2.5vw, 26px);
+  color: var(--warm-400); font-style: italic;
+  margin-bottom: 28px;
+}
+.home-hero-desc {
+  font-size: 15px; line-height: 1.75; color: var(--warm-500);
+  max-width: 520px; margin-bottom: 44px; font-weight: 300;
+}
+.home-hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+.home-stats-bar {
+  display: flex; align-items: center; gap: 0;
+  background: var(--white);
+  border: 1px solid var(--warm-200);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-top: 64px;
+}
+.home-stat-item {
+  flex: 1; padding: 24px 32px;
+  border-right: 1px solid var(--warm-200);
+  display: flex; flex-direction: column; gap: 5px;
+}
+.home-stat-item:last-child { border-right: none; }
+.home-stat-val { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--ink); line-height: 1; }
+.home-stat-lbl { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-400); }
+
+/* node preview cards */
+.node-preview {
+  background: var(--white);
+  border: 1px solid var(--warm-200);
+  border-radius: 6px; overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s; cursor: pointer;
+}
+.node-preview:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+.node-preview-header { padding: 32px 32px 24px; }
+.node-preview-num { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--warm-400); margin-bottom: 16px; }
+.node-preview-icon { font-size: 36px; margin-bottom: 14px; }
+.node-preview-name { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 4px; color: var(--ink); }
+.node-preview-loc { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-400); margin-bottom: 16px; }
+.node-preview-desc { font-size: 13px; line-height: 1.65; color: var(--warm-500); }
+.node-preview-footer {
+  padding: 16px 32px;
+  background: var(--warm-50);
+  border-top: 1px solid var(--warm-200);
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px; color: var(--warm-400); letter-spacing: 0.1em; text-transform: uppercase;
+}
+.node-preview-footer span { color: var(--gold); font-weight: 600; }
+.node-hub-accent { border-top: 3px solid var(--forest-text); }
+.node-corridor-accent { border-top: 3px solid #C0553A; }
+.node-terminus-accent { border-top: 3px solid var(--ocean-text); }
+
+/* circuit flow */
+.circuit-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; flex-wrap: wrap;
+}
+.circuit-box {
+  background: var(--white); border: 1px solid var(--warm-200);
+  border-radius: 6px; padding: 28px 24px; min-width: 180px;
+  text-align: center; box-shadow: var(--shadow-sm);
+  position: relative; transition: all 0.25s; cursor: pointer;
+}
+.circuit-box:hover { border-color: var(--gold-light); box-shadow: var(--shadow-md); }
+.circuit-box-icon { font-size: 26px; margin-bottom: 10px; }
+.circuit-box-name { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--ink); margin-bottom: 3px; }
+.circuit-box-loc { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--warm-400); }
+.circuit-tag { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 10px; border-radius: 2px; white-space: nowrap; background: var(--gold); color: var(--white); font-weight: 700; }
+.circuit-arrow { font-size: 18px; color: var(--warm-300); padding: 0 16px; flex-shrink: 0; }
+.circuit-fleet-bar {
+  margin-top: 32px;
+  background: var(--gold-pale);
+  border: 1px solid rgba(154,107,40,0.2);
+  border-radius: 6px; padding: 20px 32px;
+  display: flex; align-items: center; gap: 16px;
+  font-size: 13px; color: var(--warm-600);
+}
+
+/* ─────────────────────────────────────────
+   LOCATION PAGES — COOPER LANDING
+───────────────────────────────────────── */
+.location-hero { background: var(--forest-bg); border-bottom: 1px solid var(--forest-border); }
+.location-hero-salmon { background: var(--salmon-bg); border-bottom: 1px solid var(--salmon-border); }
+.location-hero-homer { background: var(--ocean-bg); border-bottom: 1px solid var(--ocean-border); }
+
+.location-feature-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px; background: var(--warm-200);
+  border: 1px solid var(--warm-200); border-radius: 6px; overflow: hidden;
+}
+.location-feature {
+  background: var(--white); padding: 36px 28px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.location-feature-icon { font-size: 28px; }
+.location-feature-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--ink); }
+.location-feature-desc { font-size: 13px; line-height: 1.6; color: var(--warm-500); }
+
+/* booking block */
+.booking-block {
+  background: var(--ink); color: var(--white);
+  border-radius: 6px; padding: 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 32px; flex-wrap: wrap;
+}
+.booking-block h3 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 8px; }
+.booking-block p { font-size: 14px; color: rgba(255,255,255,0.65); max-width: 400px; line-height: 1.6; }
+.btn-gold {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--gold-mid); color: var(--white);
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  font-weight: 600; padding: 16px 32px; border-radius: 3px;
+  cursor: pointer; border: none; font-family: 'Inter', sans-serif;
+  transition: all 0.2s; white-space: nowrap;
+}
+.btn-gold:hover { background: var(--gold); box-shadow: 0 4px 20px rgba(154,107,40,0.3); }
+
+/* ─────────────────────────────────────────
+   FISHING PAGE
+───────────────────────────────────────── */
+.species-card {
+  background: var(--white); border: 1px solid var(--warm-200);
+  border-radius: 6px; overflow: hidden; box-shadow: var(--shadow-sm);
+  transition: all 0.25s;
+}
+.species-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+.species-card-header { padding: 32px; border-bottom: 1px solid var(--warm-100); }
+.species-card-icon { font-size: 44px; margin-bottom: 16px; }
+.species-card-name { font-family: 'Playfair Display', serif; font-size: 24px; margin-bottom: 4px; }
+.species-card-season { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-400); }
+.species-card-body { padding: 28px 32px; }
+.species-card-desc { font-size: 13px; line-height: 1.65; color: var(--warm-500); margin-bottom: 20px; }
+
+/* guide profile */
+.guide-profile {
+  background: var(--ink); color: var(--white);
+  border-radius: 6px; padding: 56px 64px;
+  display: grid; grid-template-columns: 1fr 2fr; gap: 48px;
+  align-items: center;
+}
+.guide-avatar {
+  width: 140px; height: 140px; border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 2px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 64px; flex-shrink: 0;
+}
+.guide-name { font-family: 'Playfair Display', serif; font-size: 36px; margin-bottom: 6px; }
+.guide-title { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 20px; }
+.guide-bio { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.75); margin-bottom: 28px; }
+.guide-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+.guide-stat-val { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--gold-light); }
+.guide-stat-lbl { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+
+/* ─────────────────────────────────────────
+   TRANSPORTATION PAGE
+───────────────────────────────────────── */
+.bronco-hero {
+  background: linear-gradient(135deg, #F5F0E8 0%, #EDE8DE 100%);
+  border-radius: 6px; padding: 56px 64px;
+  border: 1px solid var(--warm-200);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+}
+.bronco-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--ink); color: var(--white);
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 3px; margin-bottom: 20px;
+}
+.bronco-title { font-family: 'Playfair Display', serif; font-size: 42px; margin-bottom: 12px; color: var(--ink); }
+.bronco-desc { font-size: 14px; line-height: 1.7; color: var(--warm-500); margin-bottom: 28px; }
+.bronco-icon { font-size: 96px; text-align: center; }
+
+/* route card */
+.route-card {
+  background: var(--white); border: 1px solid var(--warm-200);
+  border-radius: 6px; padding: 28px; box-shadow: var(--shadow-sm);
+  display: flex; align-items: flex-start; gap: 20px;
+}
+.route-from-to {
+  display: flex; flex-direction: column; gap: 4px;
+  min-width: 120px;
+}
+.route-place { font-family: 'Playfair Display', serif; font-size: 14px; }
+.route-arrow-v { color: var(--warm-300); font-size: 18px; line-height: 1; }
+.route-details { flex: 1; }
+.route-title { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+.route-meta { font-size: 12px; color: var(--warm-400); }
+
+/* ─────────────────────────────────────────
+   APP PAGE
+───────────────────────────────────────── */
+.app-hero {
+  background: var(--ink); color: var(--white);
+  border-radius: 6px; padding: 72px 64px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.app-hero-bg {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.app-hero h2 { font-family: 'Playfair Display', serif; font-size: 52px; margin-bottom: 16px; position: relative; z-index: 2; }
+.app-hero p { font-size: 15px; color: rgba(255,255,255,0.65); max-width: 520px; margin: 0 auto 36px; line-height: 1.7; position: relative; z-index: 2; }
+
+.app-feature {
+  background: var(--white); border: 1px solid var(--warm-200);
+  border-radius: 6px; padding: 32px; box-shadow: var(--shadow-sm);
+  transition: all 0.25s;
+}
+.app-feature:hover { box-shadow: var(--shadow-md); }
+.app-feature-num { font-family: 'Space Mono', monospace; font-size: 28px; color: var(--warm-200); margin-bottom: 16px; font-weight: 700; }
+.app-feature-icon { font-size: 32px; margin-bottom: 14px; }
+.app-feature-title { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 10px; }
+.app-feature-desc { font-size: 13px; line-height: 1.65; color: var(--warm-500); }
+
+/* tech stack */
+.tech-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'Space Mono', monospace; font-size: 10px;
+  letter-spacing: 0.1em; padding: 7px 14px;
+  background: var(--warm-50); border: 1px solid var(--warm-200);
+  border-radius: 3px; color: var(--warm-600);
+}
+.tech-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* ─────────────────────────────────────────
+   APPAREL PAGE
+───────────────────────────────────────── */
+.apparel-line {
+  background: var(--white); border: 1px solid var(--warm-200);
+  border-radius: 6px; overflow: hidden; box-shadow: var(--shadow-sm);
+}
+.apparel-line-header { padding: 40px 40px 28px; border-bottom: 1px solid var(--warm-100); }
+.apparel-line-title { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 6px; }
+.apparel-line-sub { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-400); margin-bottom: 14px; }
+.apparel-line-desc { font-size: 13px; line-height: 1.65; color: var(--warm-500); }
+.apparel-line-body { padding: 32px 40px; }
+.apparel-product {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 0; border-bottom: 1px solid var(--warm-100);
+}
+.apparel-product:last-child { border-bottom: none; }
+.apparel-product-icon { font-size: 24px; flex-shrink: 0; }
+.apparel-product-name { font-size: 14px; font-weight: 500; }
+.apparel-product-desc { font-size: 12px; color: var(--warm-400); margin-top: 2px; }
+.apparel-product-badge { margin-left: auto; }
+
+/* ─────────────────────────────────────────
+   EXTRA ACTIVITIES PAGE
+───────────────────────────────────────── */
+.activity-card {
+  background: var(--white); border: 1px solid var(--warm-200);
+  border-radius: 6px; padding: 32px; box-shadow: var(--shadow-sm);
+  transition: all 0.25s;
+}
+.activity-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.activity-icon { font-size: 40px; margin-bottom: 16px; }
+.activity-title { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 8px; }
+.activity-loc { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-400); margin-bottom: 12px; }
+.activity-desc { font-size: 13px; line-height: 1.65; color: var(--warm-500); }
+
+/* ─── FOOTER ──────────────────────────── */
+footer {
+  background: var(--ink); color: rgba(255,255,255,0.7);
+  padding: 56px 48px 40px;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 40px; flex-wrap: wrap;
+  padding-bottom: 40px; margin-bottom: 32px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.footer-brand-name { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--white); margin-bottom: 6px; }
+.footer-brand-tag { font-size: 11px; letter-spacing: 0.15em; color: var(--gold-light); }
+.footer-nodes { display: flex; gap: 32px; flex-wrap: wrap; }
+.footer-node-name { font-size: 13px; color: var(--white); margin-bottom: 3px; }
+.footer-node-loc { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+.footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-copy { font-size: 11px; }
+.footer-copy a { color: var(--gold-light); text-decoration: none; }
+
+/* ─── RESPONSIVE ──────────────────────── */
+@media (max-width: 900px) {
+  .nav-top { padding: 14px 20px 10px; }
+  .nav-tabs { padding: 0 20px; }
+  .container { padding: 0 20px; }
+  .home-hero { padding: 80px 20px 60px; }
+  .grid-2, .grid-3, .grid-4, .location-feature-grid { grid-template-columns: 1fr; }
+  .guide-profile { grid-template-columns: 1fr; text-align: center; }
+  .guide-avatar { margin: 0 auto; }
+  .bronco-hero { grid-template-columns: 1fr; }
+  .bronco-icon { display: none; }
+  .booking-block { flex-direction: column; text-align: center; }
+  .circuit-row { flex-direction: column; }
+  .circuit-arrow { transform: rotate(90deg); }
+  footer { padding: 40px 20px 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ──────────────────────────────────────── -->
+<div class="nav-wrapper">
+  <div class="nav-top">
+    <div class="nav-brand">
+      <div class="nav-brand-name">The Last Frontier Collection</div>
+      <div class="nav-brand-sub">Alaska's Premier Experience Ecosystem</div>
+    </div>
+    <div class="nav-badge">lastfrontiercollection.com</div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('home')">
+      <span class="nav-tab-dot" style="background:#9A6B28"></span> Home
+    </button>
+    <button class="nav-tab" onclick="showPage('cooper')">
+      <span class="nav-tab-dot" style="background:#2A5230"></span> Cooper Landing
+    </button>
+    <button class="nav-tab" onclick="showPage('soldotna')">
+      <span class="nav-tab-dot" style="background:#C0553A"></span> Soldotna
+    </button>
+    <button class="nav-tab" onclick="showPage('homer')">
+      <span class="nav-tab-dot" style="background:#1A4870"></span> Homer
+    </button>
+    <button class="nav-tab" onclick="showPage('fishing')">
+      <span class="nav-tab-dot" style="background:#4A7C59"></span> Fishing
+    </button>
+    <button class="nav-tab" onclick="showPage('transport')">
+      <span class="nav-tab-dot" style="background:#8A6020"></span> Transportation
+    </button>
+    <button class="nav-tab" onclick="showPage('app')">
+      <span class="nav-tab-dot" style="background:#3A5A8A"></span> The App
+    </button>
+    <button class="nav-tab" onclick="showPage('apparel')">
+      <span class="nav-tab-dot" style="background:#7A4A5A"></span> Apparel
+    </button>
+    <button class="nav-tab" onclick="showPage('activities')">
+      <span class="nav-tab-dot" style="background:#5A6A3A"></span> Extra Activities
+    </button>
+    <button class="nav-tab" onclick="showPage('opportunities')">
+      <span class="nav-tab-dot" style="background:#C9A84C"></span> Opportunities
+    </button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     HOME PAGE
+══════════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <div class="home-hero">
+    <div class="home-hero-bg"></div>
+    <div class="home-hero-grid"></div>
+    <div class="home-hero-content">
+      <div class="home-hero-eyebrow">Alaska's Premier Experience Ecosystem</div>
+      <h1 class="home-hero-title">The Last<br><em>Frontier</em><br>Collection</h1>
+      <div class="home-hero-sub">Flight to Finish</div>
+      <p class="home-hero-desc">A unified luxury travel ecosystem connecting elite lodging, world-class guiding, and seamless logistics across Alaska's Kenai Peninsula — from first cast to final halibut.</p>
+      <div class="home-hero-cta">
+        <button class="btn-primary" onclick="showPage('cooper')">Explore The Circuit →</button>
+        <button class="btn-outline" onclick="showPage('fishing')">Book a Guide Day</button>
+      </div>
+    </div>
+    <div class="home-stats-bar">
+      <div class="home-stat-item">
+        <div class="home-stat-val">3</div>
+        <div class="home-stat-lbl">Destination Nodes</div>
+      </div>
+      <div class="home-stat-item">
+        <div class="home-stat-val">5</div>
+        <div class="home-stat-lbl">Revenue Layers</div>
+      </div>
+      <div class="home-stat-item">
+        <div class="home-stat-val">5.8K+</div>
+        <div class="home-stat-lbl">YouTube Subscribers</div>
+      </div>
+      <div class="home-stat-item">
+        <div class="home-stat-val">15%+</div>
+        <div class="home-stat-lbl">Commission Reclaimed</div>
+      </div>
+      <div class="home-stat-item">
+        <div class="home-stat-val">1</div>
+        <div class="home-stat-lbl">Unified Platform</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Three Nodes -->
+  <div class="section">
+    <div class="container">
+      <div class="eyebrow">The Three Nodes</div>
+      <h2 class="page-title" style="margin-bottom: 8px;">Hub. Corridor. Terminus.</h2>
+      <p class="page-subtitle" style="margin-bottom: 48px;">Each node anchors a distinct Alaskan experience — bookable individually or as the complete Alaska Circuit.</p>
+      <div class="grid-3">
+        <div class="node-preview node-hub-accent" onclick="showPage('cooper')" style="cursor:pointer;">
+          <div class="node-preview-header">
+            <div class="node-preview-num">Node 01 · The Hub</div>
+            <div class="node-preview-icon">🏔️</div>
+            <div class="chip chip-forest" style="margin-bottom: 14px;">Cooper Landing</div>
+            <div class="node-preview-name">Alaska Heavenly Lodge</div>
+            <div class="node-preview-loc">Upper Kenai River</div>
+            <p class="node-preview-desc" style="margin-top:12px;">Luxury flagship lodging with elite technical trout fishing on the Upper Kenai. The entry point for every Alaska Circuit guest.</p>
+          </div>
+          <div class="node-preview-footer">Learn more <span>→</span></div>
+        </div>
+        <div class="node-preview node-corridor-accent" onclick="showPage('soldotna')" style="cursor:pointer;">
+          <div class="node-preview-header">
+            <div class="node-preview-num">Node 02 · The Corridor</div>
+            <div class="node-preview-icon">🎣</div>
+            <div class="chip chip-salmon" style="margin-bottom: 14px;">Soldotna / Sterling</div>
+            <div class="node-preview-name">Moose & Spruce / Keen Eye</div>
+            <div class="node-preview-loc">Lower Kenai River</div>
+            <p class="node-preview-desc" style="margin-top:12px;">The active heart of the circuit. World-famous Lower Kenai salmon runs and active recovery between the Hub and Terminus.</p>
+          </div>
+          <div class="node-preview-footer">Learn more <span>→</span></div>
+        </div>
+        <div class="node-preview node-terminus-accent" onclick="showPage('homer')" style="cursor:pointer;">
+          <div class="node-preview-header">
+            <div class="node-preview-num">Node 03 · The Terminus</div>
+            <div class="node-preview-icon">🌊</div>
+            <div class="chip chip-ocean" style="margin-bottom: 14px;">Homer</div>
+            <div class="node-preview-name">Just Fish Inn</div>
+            <div class="node-preview-loc">Kachemak Bay</div>
+            <p class="node-preview-desc" style="margin-top:12px;">The grand finale. Ocean halibut charters, coastal wellness, and the breathtaking Kachemak Bay at the end of the Alaska Circuit.</p>
+          </div>
+          <div class="node-preview-footer">Learn more <span>→</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- The Alaska Circuit -->
+  <div class="section" style="background: var(--warm-50);">
+    <div class="container">
+      <div class="eyebrow">The Alaska Circuit</div>
+      <h2 class="page-title" style="margin-bottom: 8px;">One Journey. Three Destinations.</h2>
+      <p class="page-subtitle" style="margin-bottom: 48px;">Guests flow through a seamless arc — guided by Dave Lisi, connected by The Fleet, managed in one unified booking platform.</p>
+
+      <div class="circuit-row">
+        <div class="circuit-box" onclick="showPage('home')">
+          <div class="circuit-tag">Master Hub</div>
+          <div class="circuit-box-icon">🦅</div>
+          <div class="circuit-box-name">lastfrontiercollection.com</div>
+          <div class="circuit-box-loc">Brand Story · The Circuit Map</div>
+        </div>
+        <div class="circuit-arrow">↓</div>
+      </div>
+      <div class="circuit-row" style="margin-top: 8px;">
+        <div class="circuit-box" onclick="showPage('cooper')" style="border-top: 2px solid var(--forest-text);">
+          <div class="circuit-box-icon">🏔️</div>
+          <div class="circuit-box-name">Alaska Heavenly Lodge</div>
+          <div class="circuit-box-loc">Cooper Landing · The Hub</div>
+        </div>
+        <div class="circuit-arrow">→</div>
+        <div class="circuit-box" onclick="showPage('soldotna')" style="border-top: 2px solid #C0553A;">
+          <div class="circuit-box-icon">🎣</div>
+          <div class="circuit-box-name">Moose & Spruce</div>
+          <div class="circuit-box-loc">Soldotna · The Corridor</div>
+        </div>
+        <div class="circuit-arrow">→</div>
+        <div class="circuit-box" onclick="showPage('homer')" style="border-top: 2px solid var(--ocean-text);">
+          <div class="circuit-box-icon">🌊</div>
+          <div class="circuit-box-name">Just Fish Inn</div>
+          <div class="circuit-box-loc">Homer · The Terminus</div>
+        </div>
+      </div>
+      <div class="circuit-fleet-bar" onclick="showPage('transport')" style="cursor:pointer;">
+        <div style="font-size:24px;">🚙</div>
+        <div>
+          <strong style="color:var(--ink);">The Fleet — 2024 Ford Broncos</strong>
+          <span style="color: var(--warm-400); margin-left: 12px;">Connect every node · Gear-Ready rental flow · Add to any booking</span>
+        </div>
+        <span style="margin-left: auto; font-size: 11px; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600;">Learn More →</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- What's in the Collection -->
+  <div class="section">
+    <div class="container">
+      <div class="eyebrow">The Full Collection</div>
+      <h2 class="page-title" style="margin-bottom: 40px;">Everything Alaska. One Platform.</h2>
+      <div class="grid-4">
+        <div class="card" style="cursor:pointer;" onclick="showPage('fishing')">
+          <div style="font-size:36px; margin-bottom:16px;">🎣</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:18px; margin-bottom:8px;">Fishing</h3>
+          <p style="font-size:13px; color:var(--warm-500); line-height:1.6;">Elite guided trips for trout, salmon & halibut with Dave Lisi.</p>
+        </div>
+        <div class="card" style="cursor:pointer;" onclick="showPage('transport')">
+          <div style="font-size:36px; margin-bottom:16px;">🚙</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:18px; margin-bottom:8px;">Transportation</h3>
+          <p style="font-size:13px; color:var(--warm-500); line-height:1.6;">2024 Ford Bronco fleet connecting all three circuit nodes.</p>
+        </div>
+        <div class="card" style="cursor:pointer;" onclick="showPage('app')">
+          <div style="font-size:36px; margin-bottom:16px;">📱</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:18px; margin-bottom:8px;">The App</h3>
+          <p style="font-size:13px; color:var(--warm-500); line-height:1.6;">Unified booking platform — lodge, guide, fleet & concierge in one cart.</p>
+        </div>
+        <div class="card" style="cursor:pointer;" onclick="showPage('apparel')">
+          <div style="font-size:36px; margin-bottom:16px;">👕</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:18px; margin-bottom:8px;">Apparel</h3>
+          <p style="font-size:13px; color:var(--warm-500); line-height:1.6;">Lifestyle & Elite Angler collections — bamboo hoodies to tech gear.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end home -->
+
+
+<!-- ══════════════════════════════════════════════
+     COOPER LANDING PAGE
+══════════════════════════════════════════════ -->
+<div id="page-cooper" class="page">
+
+  <div class="page-hero location-hero">
+    <div class="page-hero-bg"></div>
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="eyebrow">Node 01 · The Hub</div>
+      <div class="chip chip-forest" style="margin-bottom:20px;">Cooper Landing, Kenai Peninsula</div>
+      <h1 class="page-title">Alaska Heavenly Lodge</h1>
+      <p class="page-subtitle">The flagship experience. Luxury lodging on the Upper Kenai River with elite technical trout fishing. The entry point for every Alaska Circuit guest.</p>
+      <div style="display:flex; gap:16px; margin-top:36px; flex-wrap:wrap;">
+        <button class="btn-primary">Check Availability — FareHarbor</button>
+        <button class="btn-outline" onclick="showPage('fishing')">Book a Guide Day</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="grid-2" style="gap:48px; align-items:start;">
+        <div>
+          <div class="eyebrow">The Property</div>
+          <h2 style="font-family:'Playfair Display',serif; font-size:36px; margin-bottom:20px; line-height:1.1;">The Hub of the Circuit</h2>
+          <p style="font-size:14px; line-height:1.75; color:var(--warm-500); margin-bottom:24px;">Alaska Heavenly Lodge sits at the heart of Cooper Landing on the Upper Kenai River — one of Alaska's most revered fly fishing destinations. This is where the Alaska Circuit begins, where premium nightly rates meet world-class access to trophy rainbow trout.</p>
+          <p style="font-size:14px; line-height:1.75; color:var(--warm-500); margin-bottom:32px;">With direct booking (eliminating OTA commissions), the lodge offers premium nightly rates and seamless FareHarbor-powered reservations tied directly to Dave Lisi's guiding calendar.</p>
+          <div class="feature-list">
+            <div class="feature-item"><div class="feature-bullet"></div> Premium nightly rates — 100% direct booking</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Real-time availability via FareHarbor API</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Steps from the Upper Kenai River</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Full White Glove concierge upgrade available</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Stocked fridge provisioning on arrival</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Bronco rental add-on at checkout</div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:20px;">
+            <div class="eyebrow">Lodging Highlights</div>
+            <div class="grid-2" style="gap:24px; margin-top:8px;">
+              <div class="stat-block"><div class="stat-value">★★★★★</div><div class="stat-label">Guest Rating</div></div>
+              <div class="stat-block"><div class="stat-value">Direct</div><div class="stat-label">Booking Only</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--warm-400); margin-bottom:16px; font-family:'Space Mono',monospace;">Add-On Experience</div>
+            <div style="font-size:24px; margin-bottom:10px;">🚙</div>
+            <div style="font-family:'Playfair Display',serif; font-size:18px; margin-bottom:8px;">Gear-Ready Bronco Rental</div>
+            <p style="font-size:13px; color:var(--warm-500); line-height:1.6; margin-bottom:16px;">Add a 2024 Ford Bronco to your lodge stay. Pre-loaded with rod holders, dry-bags, and a full circuit navigation guide.</p>
+            <button class="btn-outline" onclick="showPage('transport')">View Fleet Options</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section" style="background:var(--warm-50);">
+    <div class="container">
+      <div class="eyebrow">On-Property Experiences</div>
+      <h2 style="font-family:'Playfair Display',serif; font-size:36px; margin-bottom:40px;">What Awaits at The Hub</h2>
+      <div class="location-feature-grid">
+        <div class="location-feature">
+          <div class="location-feature-icon">🎣</div>
+          <div class="location-feature-title">Upper Kenai Trout</div>
+          <p class="location-feature-desc">World-class trophy rainbow trout fishing on the Upper Kenai River with Dave Lisi's elite technical guiding — available as a half-day or full-day session.</p>
+        </div>
+        <div class="location-feature">
+          <div class="location-feature-icon">🍽️</div>
+          <div class="location-feature-title">Stocked Fridge Program</div>
+          <p class="location-feature-desc">Complete a pre-arrival intake form to have your lodge stocked with custom groceries, premium spirits, and fishing-day snacks before you walk through the door.</p>
+        </div>
+        <div class="location-feature">
+          <div class="location-feature-icon">🤍</div>
+          <div class="location-feature-title">White Glove Concierge</div>
+          <p class="location-feature-desc">Upgrade to the $500–$1,500 White Glove service for airport-to-lodge transfers, custom fly selection, private dinner arrangements, and VIP trip planning.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="booking-block">
+        <div>
+          <h3>Ready to Book Alaska Heavenly Lodge?</h3>
+          <p>Check real-time availability and secure your Upper Kenai experience directly — no OTA fees, no middlemen.</p>
+        </div>
+        <button class="btn-gold">Book Directly via FareHarbor →</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end cooper -->
+
+
+<!-- ══════════════════════════════════════════════
+     SOLDOTNA PAGE
+══════════════════════════════════════════════ -->
+<div id="page-soldotna" class="page">
+
+  <div class="page-hero location-hero-salmon">
+    <div class="page-hero-bg"></div>
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="eyebrow">Node 02 · The Corridor</div>
+      <div class="chip chip-salmon" style="margin-bottom:20px;">Soldotna / Sterling, Kenai Peninsula</div>
+      <h1 class="page-title">Moose & Spruce<br>& Keen Eye</h1>
+      <p class="page-subtitle">The active heart of the Alaska Circuit. World-famous Lower Kenai salmon runs, cabin accommodations, and active recovery between The Hub and The Terminus.</p>
+      <div style="display:flex; gap:16px; margin-top:36px; flex-wrap:wrap;">
+        <button class="btn-primary">Book Direct — Coming Soon</button>
+        <button class="btn-outline" onclick="showPage('fishing')">Add a Salmon Guide Day</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="grid-2" style="gap:48px; align-items:start;">
+        <div>
+          <div class="eyebrow">The Properties</div>
+          <h2 style="font-family:'Playfair Display',serif; font-size:36px; margin-bottom:20px; line-height:1.1;">The Salmon Heart of the Kenai</h2>
+          <p style="font-size:14px; line-height:1.75; color:var(--warm-500); margin-bottom:20px;">Soldotna sits along the Lower Kenai River — one of the world's most productive salmon fisheries. The Moose & Spruce cabin and Keen Eye property give guests a comfortable, authentic base camp for the famous salmon runs that have made this stretch of river legendary.</p>
+          <p style="font-size:14px; line-height:1.75; color:var(--warm-500); margin-bottom:24px;"><strong style="color:var(--ink);">The big move:</strong> Both properties are currently on Airbnb and VRBO. Moving to direct booking through the Last Frontier Collection platform will reclaim 15%+ in OTA commissions on every single stay.</p>
+          <div class="feature-list">
+            <div class="feature-item"><div class="feature-bullet"></div> Moose & Spruce cabin accommodations</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Keen Eye property — active recovery focus</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Lower Kenai salmon guiding with Dave Lisi</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Moving off Airbnb/VRBO → 15%+ commission recaptured</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Mid-circuit rest & recovery amenities</div>
+            <div class="feature-item"><div class="feature-bullet"></div> 45 minutes from Cooper Landing by Bronco</div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:20px;">
+          <div class="card" style="background:var(--salmon-bg); border-color:var(--salmon-border);">
+            <div style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--salmon-text); margin-bottom:12px; font-family:'Space Mono',monospace;">Commission Opportunity</div>
+            <div style="font-family:'Playfair Display',serif; font-size:42px; color:var(--salmon-text); margin-bottom:4px;">15%+</div>
+            <p style="font-size:13px; color:var(--warm-500);">Recaptured per booking by moving off Airbnb/VRBO to direct booking on the Last Frontier Collection platform.</p>
+          </div>
+          <div class="card">
+            <div style="font-size:24px; margin-bottom:10px;">🐟</div>
+            <div style="font-family:'Playfair Display',serif; font-size:18px; margin-bottom:8px;">King & Silver Salmon</div>
+            <p style="font-size:13px; color:var(--warm-500); line-height:1.6;">The Lower Kenai is one of the world's top salmon destinations. King (Chinook) and Silver (Coho) salmon fill these runs June through September.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section" style="background:var(--warm-50);">
+    <div class="container">
+      <div class="eyebrow">The Corridor Experience</div>
+      <h2 style="font-family:'Playfair Display',serif; font-size:36px; margin-bottom:40px;">What Awaits in Soldotna</h2>
+      <div class="location-feature-grid">
+        <div class="location-feature">
+          <div class="location-feature-icon">🐠</div>
+          <div class="location-feature-title">World-Class Salmon Runs</div>
+          <p class="location-feature-desc">King Salmon, Silver Salmon, and Sockeye on the Lower Kenai. Dave Lisi's guided technique elevates every session — from drift fishing to combat fishing the famous Kasilof bars.</p>
+        </div>
+        <div class="location-feature">
+          <div class="location-feature-icon">🌿</div>
+          <div class="location-feature-title">Active Recovery</div>
+          <p class="location-feature-desc">Between intense fishing days, guests recharge at Keen Eye with stretching programs, gear drying rooms, and the kind of deep relaxation only a spruce-lined cabin can provide.</p>
+        </div>
+        <div class="location-feature">
+          <div class="location-feature-icon">🛖</div>
+          <div class="location-feature-title">Cabin Authenticity</div>
+          <p class="location-feature-desc">Moose & Spruce offers authentic Alaskan cabin hospitality — warm, rustic, and perfectly positioned to roll straight from bed to the river at first light.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="booking-block" style="background: #3A1A10;">
+        <div>
+          <h3>Book Moose & Spruce or Keen Eye</h3>
+          <p>Currently listed on Airbnb and VRBO — moving to direct booking through the Last Frontier Collection platform for the 2026 season.</p>
+        </div>
+        <button class="btn-gold">Join the 2026 Waitlist →</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end soldotna -->
+
+
+<!-- ══════════════════════════════════════════════
+     HOMER PAGE
+══════════════════════════════════════════════ -->
+<div id="page-homer" class="page">
+
+  <div class="page-hero location-hero-homer">
+    <div class="page-hero-bg"></div>
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="eyebrow">Node 03 · The Terminus</div>
+      <div class="chip chip-ocean" style="margin-bottom:20px;">Homer, Kachemak Bay</div>
+      <h1 class="page-title">Just Fish Inn</h1>
+      <p class="page-subtitle">The grand finale of the Alaska Circuit. Ocean halibut charters, coastal wellness, and the breathtaking expanse of Kachemak Bay at land's end on the Kenai Peninsula.</p>
+      <div style="display:flex; gap:16px; margin-top:36px; flex-wrap:wrap;">
+        <button class="btn-primary">Book Direct — Coming Soon</button>
+        <button class="btn-outline" onclick="showPage('fishing')">Book Halibut Charter</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="grid-2" style="gap:48px; align-items:start;">
+        <div>
+          <div class="eyebrow">The Property</div>
+          <h2 style="font-family:'Playfair Display',serif; font-size:36px; margin-bottom:20px; line-height:1.1;">Where the Road Ends and the Ocean Begins</h2>
+          <p style="font-size:14px; line-height:1.75; color:var(--warm-500); margin-bottom:20px;">Homer, Alaska sits at the southern tip of the Kenai Peninsula where the Sterling Highway meets the sea. Just Fish Inn is the Alaska Circuit's triumphant conclusion — a coastal basecamp for the deep-sea halibut charters and soulful Kachemak Bay experiences that make Homer one of Alaska's most beloved destinations.</p>
+          <p style="font-size:14px; line-height:1.75; color:var(--warm-500); margin-bottom:24px;">Like Moose & Spruce, Just Fish Inn is currently on Airbnb/VRBO and will migrate to direct booking on the Last Frontier Collection platform — recapturing significant OTA commissions and delivering a seamless end-to-end booking experience.</p>
+          <div class="feature-list">
+            <div class="feature-item"><div class="feature-bullet"></div> Just Fish Inn lodge — Homer Spit area</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Deep-sea halibut charter experiences</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Kachemak Bay coastal wellness</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Moving off Airbnb/VRBO → direct booking</div>
+            <div class="feature-item"><div class="feature-bullet"></div> SEO target: "Homer Halibut Charters"</div>
+            <div class="feature-item"><div class="feature-bullet"></div> The natural endpoint for the 3-node circuit</div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:20px;">
+          <div class="card" style="background:var(--ocean-bg); border-color:var(--ocean-border);">
+            <div style="font-size:40px; margin-bottom:12px;">🐟</div>
+            <div style="font-family:'Playfair Display',serif; font-size:22px; margin-bottom:8px; color:var(--ocean-text);">Pacific Halibut</div>
+            <p style="font-size:13px; color:var(--warm-500); line-height:1.6;">Homer is Alaska's Halibut Capital. Fish averaging 50–200 lbs fill Kachemak Bay — a bucket-list experience that's the natural crown jewel of the Alaska Circuit.</p>
+          </div>
+          <div class="card">
+            <div style="font-size:24px; margin-bottom:10px;">🌊</div>
+            <div style="font-family:'Playfair Display',serif; font-size:18px; margin-bottom:8px;">Coastal Wellness</div>
+            <p style="font-size:13px; color:var(--warm-500); line-height:1.6;">Beyond fishing, Homer offers sea kayaking in Kachemak Bay State Park, wildlife viewing (puffins, eagles, bears), and world-class restaurants on the famous Homer Spit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section" style="background:var(--warm-50);">
+    <div class="container">
+      <div class="eyebrow">The Terminus Experience</div>
+      <h2 style="font-family:'Playfair Display',serif; font-size:36px; margin-bottom:40px;">What Awaits in Homer</h2>
+      <div class="location-feature-grid">
+        <div class="location-feature">
+          <div class="location-feature-icon">⚓</div>
+          <div class="location-feature-title">Halibut Charter Fishing</div>
+          <p class="location-feature-desc">Full-day deep-sea halibut charters departing from Homer Spit. Alaska's most iconic ocean fishing experience — the capstone of the entire Alaska Circuit journey.</p>
+        </div>
+        <div class="location-feature">
+          <div class="location-feature-icon">🦅</div>
+          <div class="location-feature-title">Kachemak Bay Wildlife</div>
+          <p class="location-feature-desc">Bald eagles, sea otters, puffins, bears, and orca sightings are routine in Kachemak Bay. Guided wildlife tours can be added directly through the concierge portal.</p>
+        </div>
+        <div class="location-feature">
+          <div class="location-feature-icon">🌅</div>
+          <div class="location-feature-title">Homer Spit & Coastal Living</div>
+          <p class="location-feature-desc">The Homer Spit extends 4.5 miles into the bay — home to legendary restaurants, galleries, and the authentic fishing community atmosphere that defines coastal Alaska.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="booking-block" style="background:#0D2B44;">
+        <div>
+          <h3>Book Just Fish Inn — Homer</h3>
+          <p>The final chapter of the Alaska Circuit. Currently listed on Airbnb/VRBO — migrating to direct booking for the 2026 season.</p>
+        </div>
+        <button class="btn-gold">Join the 2026 Waitlist →</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end homer -->
+
+
+<!-- ══════════════════════════════════════════════
+     FISHING PAGE
+══════════════════════════════════════════════ -->
+<div id="page-fishing" class="page">
+
+  <div class="page-hero" style="background:var(--forest-bg); border-bottom:1px solid var(--forest-border);">
+    <div class="page-hero-bg"></div>
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="eyebrow">Elite Technical Guiding</div>
+      <h1 class="page-title">Guided Fishing<br>with Dave Lisi</h1>
+      <p class="page-subtitle">Three species. Three nodes. One master guide. From trophy Upper Kenai rainbows to world-class Lower Kenai salmon and open-ocean Homer halibut.</p>
+      <div style="display:flex; gap:16px; margin-top:36px;">
+        <button class="btn-primary">Book a Guide Day — FareHarbor</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Guide Profile -->
+  <div class="section">
+    <div class="container">
+      <div class="guide-profile">
+        <div style="text-align:center;">
+          <div class="guide-avatar">🎣</div>
+          <div style="margin-top:24px;">
+            <div class="guide-name">Dave Lisi</div>
+            <div class="guide-title">Master Guide · Kenai Peninsula</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold-light); margin-bottom:16px;">The Guide</div>
+          <p class="guide-bio">David Lisi is the founding force behind The Last Frontier Collection — a lifelong Alaskan guide whose technical expertise and deep knowledge of Kenai Peninsula waters has built a loyal following across the state. His YouTube channel showcases the craft of Alaska fishing to 5.8K+ subscribers, driving high-intent anglers directly to the Collection's booking platform.</p>
+          <p class="guide-bio" style="margin-top:12px;">From fly fishing trophy rainbows on the Upper Kenai to back-trolling the Lower Kenai's legendary salmon runs and running halibut charters in Kachemak Bay, Dave's guiding spans the full Alaska Circuit.</p>
+          <div class="guide-stats">
+            <div><div class="guide-stat-val">5.8K+</div><div class="guide-stat-lbl">YouTube Subs</div></div>
+            <div><div class="guide-stat-val">3</div><div class="guide-stat-lbl">Circuit Nodes</div></div>
+            <div><div class="guide-stat-val">3</div><div class="guide-stat-lbl">Target Species</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Species -->
+  <div class="section" style="background:var(--warm-50);">
+    <div class="container">
+      <div class="eyebrow">Target Species</div>
+      <h2 style="font-family:'Playfair Display',serif; font-size:40px; margin-bottom:40px;">Three Species. Three Experiences.</h2>
+      <div class="grid-3">
+        <div class="species-card">
+          <div class="species-card-header" style="background:var(--forest-bg);">
+            <div class="species-card-icon">🎏</div>
+            <div class="species-card-name">Rainbow Trout</div>
+            <div class="species-card-season">Season: Year-Round · Location: Cooper Landing</div>
+          </div>
+          <div class="species-card-body">
+            <p class="species-card-desc">The Upper Kenai River holds some of Alaska's finest trophy rainbow trout. Dave's technical fly fishing approach — dead drifts, indicator nymphing, and streamer techniques — delivers consistent action on fish averaging 18–26 inches.</p>
+            <div class="feature-list">
+              <div class="feature-item"><div class="feature-bullet"></div> Half-day & full-day sessions available</div>
+              <div class="feature-item"><div class="feature-bullet"></div> All gear provided — or bring your own</div>
+              <div class="feature-item"><div class="feature-bullet"></div> Catch & release focus on trophy fish</div>
+            </div>
+            <button class="btn-primary" style="margin-top:24px; font-size:10px; padding:12px 20px;">Book at Cooper Landing</button>
+          </div>
+        </div>
+        <div class="species-card">
+          <div class="species-card-header" style="background:var(--salmon-bg);">
+            <div class="species-card-icon">🐟</div>
+            <div class="species-card-name">King & Silver Salmon</div>
+            <div class="species-card-season">Season: May–Sept · Location: Soldotna</div>
+          </div>
+          <div class="species-card-body">
+            <p class="species-card-desc">The Lower Kenai River is world-famous for its King (Chinook) and Silver (Coho) salmon runs. Back-trolling, drift fishing, and combat fishing the legendary Kasilof bars — Dave's salmon technique is honed from years on these specific waters.</p>
+            <div class="feature-list">
+              <div class="feature-item"><div class="feature-bullet"></div> King Salmon (May–July) — trophy class</div>
+              <div class="feature-item"><div class="feature-bullet"></div> Silver Salmon (Aug–Sept) — hard fighters</div>
+              <div class="feature-item"><div class="feature-bullet"></div> Fish processing & packaging available</div>
+            </div>
+            <button class="btn-primary" style="margin-top:24px; font-size:10px; padding:12px 20px;">Book at Soldotna</button>
+          </div>
+        </div>
+        <div class="species-card">
+          <div class="species-card-header" style="background:var(--ocean-bg);">
+            <div class="species-card-icon">🐠</div>
+            <div class="species-card-name">Pacific Halibut</div>
+            <div class="species-card-season">Season: May–Sept · Location: Homer</div>
+          </div>
+          <div class="species-card-body">
+            <p class="species-card-desc">Homer is Alaska's Halibut Capital. Full-day charters depart from Homer Spit into Kachemak Bay for Pacific Halibut averaging 50–200 lbs. The ultimate deepwater experience and the fitting crown jewel of the Alaska Circuit.</p>
+            <div class="feature-list">
+              <div class="feature-item"><div class="feature-bullet"></div> Full-day ocean charter — 8+ hours</div>
+              <div class="feature-item"><div class="feature-bullet"></div> Fish averaging 50–200+ lbs</div>
+              <div class="feature-item"><div class="feature-bullet"></div> Vacuum-sealed & frozen to ship home</div>
+            </div>
+            <button class="btn-primary" style="margin-top:24px; font-size:10px; padding:12px 20px;">Book at Homer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Booking block -->
+  <div class="section">
+    <div class="container">
+      <div class="booking-block">
+        <div>
+          <h3>Book a Guided Day with Dave Lisi</h3>
+          <p>All three nodes on FareHarbor — real-time availability, instant confirmation. Bundle with lodging for the complete Alaska Circuit experience.</p>
+        </div>
+        <button class="btn-gold">View Full Calendar — FareHarbor →</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end fishing -->
+
+
+<!-- ══════════════════════════════════════════════
+     TRANSPORTATION PAGE
+══════════════════════════════════════════════ -->
+<div id="page-transport" class="page">
+
+  <div class="page-hero" style="background:linear-gradient(135deg, #F5F0E5 0%, #EDE7DA 100%); border-bottom:1px solid var(--warm-200);">
+    <div class="page-hero-bg"></div>
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="eyebrow">The Fleet</div>
+      <h1 class="page-title">2024 Ford Broncos</h1>
+      <p class="page-subtitle">The official vehicle of the Alaska Circuit. Pre-loaded, gear-ready, and designed to connect every node of the Last Frontier Collection with confidence and style.</p>
+      <div style="display:flex; gap:16px; margin-top:36px;">
+        <button class="btn-primary">Add to Your Booking</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bronco hero card -->
+  <div class="section">
+    <div class="container">
+      <div class="bronco-hero">
+        <div>
+          <div class="bronco-badge">🚙 The Fleet · 2024</div>
+          <h2 class="bronco-title">Gear-Ready.<br>Trail-Ready.<br>Alaska-Ready.</h2>
+          <p class="bronco-desc">Every Bronco in The Fleet comes pre-configured for the Alaska Circuit — rod holders, gear dry-bags, fishing coolers, and a custom navigation guide to every fishing hole across all three nodes.</p>
+          <div class="feature-list" style="margin-bottom:28px;">
+            <div class="feature-item"><div class="feature-bullet"></div> Rod holders & gear dry-bag storage built in</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Fishing cooler for same-day catch transport</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Custom Alaska Circuit navigation guide loaded</div>
+            <div class="feature-item"><div class="feature-bullet"></div> All-terrain capability for any Alaska road</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Add to any lodging or guide booking at checkout</div>
+          </div>
+          <button class="btn-primary">Add a Bronco to My Booking</button>
+        </div>
+        <div class="bronco-icon">🚙</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Routes -->
+  <div class="section" style="background:var(--warm-50);">
+    <div class="container">
+      <div class="eyebrow">The Circuit Routes</div>
+      <h2 style="font-family:'Playfair Display',serif; font-size:36px; margin-bottom:40px;">Connect Every Node</h2>
+      <div style="display:flex; flex-direction:column; gap:16px; max-width:700px;">
+        <div class="route-card">
+          <div class="route-from-to">
+            <div class="route-place">🏔️ Cooper Landing</div>
+            <div class="route-arrow-v">↓</div>
+            <div class="route-place">🎣 Soldotna</div>
+          </div>
+          <div class="route-details">
+            <div class="route-title">Hub → Corridor Transfer</div>
+            <div class="route-meta">~45 minutes · Sterling Highway · Scenic Kenai River drive</div>
+            <p style="font-size:12px; color:var(--warm-400); margin-top:8px; line-height:1.5;">The most traveled stretch of the Alaska Circuit. Pass through Sterling and watch the Kenai River transform from crystal trout water to the broad salmon flats of Soldotna.</p>
+          </div>
+        </div>
+        <div class="route-card">
+          <div class="route-from-to">
+            <div class="route-place">🎣 Soldotna</div>
+            <div class="route-arrow-v">↓</div>
+            <div class="route-place">🌊 Homer</div>
+          </div>
+          <div class="route-details">
+            <div class="route-title">Corridor → Terminus Transfer</div>
+            <div class="route-meta">~1.5 hours · Sterling Highway → Homer Spit Road · Coastal views</div>
+            <p style="font-size:12px; color:var(--warm-400); margin-top:8px; line-height:1.5;">The scenic finale. The road follows the peninsula south toward Kachemak Bay — the Kenai Mountains on one side, Cook Inlet on the other. One of Alaska's most beautiful drives.</p>
+          </div>
+        </div>
+        <div class="route-card">
+          <div class="route-from-to">
+            <div class="route-place">✈️ Anchorage</div>
+            <div class="route-arrow-v">↓</div>
+            <div class="route-place">🏔️ Cooper Landing</div>
+          </div>
+          <div class="route-details">
+            <div class="route-title">Airport → Hub Transfer</div>
+            <div class="route-meta">~2 hours · Seward Highway · Ted Stevens International</div>
+            <p style="font-size:12px; color:var(--warm-400); margin-top:8px; line-height:1.5;">Fly into Anchorage, pick up your Bronco (or book the White Glove airport transfer), and follow the Seward Highway along the Turnagain Arm — arguably the most beautiful airport drive in North America.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="booking-block">
+        <div>
+          <h3>Add The Fleet to Your Alaska Circuit</h3>
+          <p>Every Bronco rental is added seamlessly at checkout when you book any lodging stay or guided fishing day. Gear-Ready means you arrive ready to fish.</p>
+        </div>
+        <button class="btn-gold">Add a Bronco at Checkout →</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end transport -->
+
+
+<!-- ══════════════════════════════════════════════
+     THE APP PAGE
+══════════════════════════════════════════════ -->
+<div id="page-app" class="page">
+
+  <div class="page-hero" style="background:var(--warm-50); border-bottom:1px solid var(--warm-200);">
+    <div class="page-hero-bg"></div>
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="eyebrow">The Platform</div>
+      <h1 class="page-title">The Last Frontier<br>Collection App</h1>
+      <p class="page-subtitle">One unified booking platform for the entire Alaska Circuit. Lodge, guide, fleet, concierge, and apparel — in a single cart, on one seamless mobile-first experience.</p>
+    </div>
+  </div>
+
+  <!-- App hero block -->
+  <div class="section">
+    <div class="container">
+      <div class="app-hero">
+        <div class="app-hero-bg"></div>
+        <div style="font-size:64px; margin-bottom:24px; position:relative;z-index:2;">📱</div>
+        <h2>One App. The Whole Circuit.</h2>
+        <p>Book your lodge, add a guide day, reserve a Bronco, arrange the stocked fridge, and shop the apparel — all without leaving the platform. The unified cart experience is the core innovation of The Last Frontier Collection.</p>
+        <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap; position:relative;z-index:2;">
+          <button class="btn-gold">Coming — 2026 Season</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Features -->
+  <div class="section" style="background:var(--warm-50);">
+    <div class="container">
+      <div class="eyebrow">Platform Features</div>
+      <h2 style="font-family:'Playfair Display',serif; font-size:36px; margin-bottom:40px;">Built for the Alaska Circuit Guest</h2>
+      <div class="grid-3">
+        <div class="app-feature">
+          <div class="app-feature-num">01</div>
+          <div class="app-feature-icon">🗺️</div>
+          <div class="app-feature-title">Interactive Alaska Circuit Map</div>
+          <p class="app-feature-desc">A custom-built, mobile-responsive map with clickable GPS pins at each node property. Live availability, photo galleries, and one-tap booking — the visual heart of the platform.</p>
+        </div>
+        <div class="app-feature">
+          <div class="app-feature-num">02</div>
+          <div class="app-feature-icon">🛒</div>
+          <div class="app-feature-title">The Unified Cart</div>
+          <p class="app-feature-desc">Book a lodge → add a guide day → add a Bronco → upgrade to White Glove → shop apparel. One checkout session for the complete Alaska Circuit — no jumping between platforms.</p>
+        </div>
+        <div class="app-feature">
+          <div class="app-feature-num">03</div>
+          <div class="app-feature-icon">📅</div>
+          <div class="app-feature-title">FareHarbor Live Availability</div>
+          <p class="app-feature-desc">Real-time availability for all lodging and guided fishing sessions via the FareHarbor Lightframe API. Instant booking confirmation, no back-and-forth emails required.</p>
+        </div>
+        <div class="app-feature">
+          <div class="app-feature-num">04</div>
+          <div class="app-feature-icon">🧊</div>
+          <div class="app-feature-title">Stocked Fridge Intake</div>
+          <p class="app-feature-desc">After any lodging booking, guests receive an automatic intake form to pre-order groceries, premium spirits, and snacks — delivered and stocked before they arrive at the lodge.</p>
+        </div>
+        <div class="app-feature">
+          <div class="app-feature-num">05</div>
+          <div class="app-feature-icon">🤍</div>
+          <div class="app-feature-title">White Glove Concierge Portal</div>
+          <p class="app-feature-desc">A dedicated portal page for the $500–$1,500 concierge upgrade — airport transfers, custom fly selection, private dinners, and VIP trip planning. All managed in-platform.</p>
+        </div>
+        <div class="app-feature">
+          <div class="app-feature-num">06</div>
+          <div class="app-feature-icon">📺</div>
+          <div class="app-feature-title">YouTube Booking Funnel</div>
+          <p class="app-feature-desc">Dave Lisi's YouTube channel drives 5.8K+ technical fishing subscribers directly to mobile-optimized booking pages. Video embeds on lodge and guide pages close the loop from content to conversion.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Tech Stack -->
+  <div class="section">
+    <div class="container">
+      <div class="grid-2" style="gap:48px; align-items:start;">
+        <div>
+          <div class="eyebrow">Technology Stack</div>
+          <h2 style="font-family:'Playfair Display',serif; font-size:36px; margin-bottom:20px; line-height:1.1;">Built on Proven Platforms</h2>
+          <p style="font-size:14px; line-height:1.75; color:var(--warm-500); margin-bottom:32px;">The platform is built for conversion — mobile-first, fast, and designed around the high-intent fishing and travel audience that Dave Lisi's YouTube channel delivers.</p>
+          <div class="tech-pills">
+            <div class="tech-pill">WordPress / Webflow</div>
+            <div class="tech-pill">FareHarbor Lightframe API</div>
+            <div class="tech-pill">Stripe Payments</div>
+            <div class="tech-pill">Shopify E-Commerce</div>
+            <div class="tech-pill">Custom GPS Map</div>
+            <div class="tech-pill">Mobile-First UX</div>
+            <div class="tech-pill">YouTube Funnel</div>
+            <div class="tech-pill">SEO Hub-and-Spoke</div>
+            <div class="tech-pill">Post-Booking Intake</div>
+            <div class="tech-pill">Direct Booking Engine</div>
+            <div class="tech-pill">Unified Cart</div>
+            <div class="tech-pill">Concierge Portal</div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div class="card">
+            <div class="eyebrow">3 Deliverables to Launch</div>
+            <div class="feature-list">
+              <div class="feature-item"><div class="feature-bullet"></div> <strong>Phase 1:</strong> Wireframes & User Journey Flow (Mobile & Desktop)</div>
+              <div class="feature-item"><div class="feature-bullet"></div> <strong>Phase 2:</strong> FareHarbor Integration & Test Booking Environment</div>
+              <div class="feature-item"><div class="feature-bullet"></div> <strong>Phase 3:</strong> Launch of lastfrontiercollection.com — 2026 Season</div>
+            </div>
+          </div>
+          <div class="card" style="background:var(--gold-pale); border-color:rgba(154,107,40,0.2);">
+            <div style="font-size:22px; margin-bottom:10px;">💰</div>
+            <div style="font-family:'Playfair Display',serif; font-size:18px; margin-bottom:8px;">The Business Case</div>
+            <p style="font-size:13px; color:var(--warm-500); line-height:1.6;">Moving 2 properties off Airbnb/VRBO reclaims 15%+ OTA commissions. The unified cart enables cross-selling across all 5 revenue layers in a single booking session.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end app -->
+
+
+<!-- ══════════════════════════════════════════════
+     APPAREL PAGE
+══════════════════════════════════════════════ -->
+<div id="page-apparel" class="page">
+
+  <div class="page-hero" style="background:linear-gradient(135deg, #F8F5F0 0%, #F0EBE2 100%); border-bottom:1px solid var(--warm-200);">
+    <div class="page-hero-bg"></div>
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="eyebrow">The Collection Shop</div>
+      <h1 class="page-title">Last Frontier<br>Apparel</h1>
+      <p class="page-subtitle">Two lines. One Alaska identity. High-margin lifestyle and technical gear for the anglers, adventurers, and Alaska devotees who live and breathe the Last Frontier.</p>
+      <div style="display:flex; gap:16px; margin-top:36px;">
+        <button class="btn-primary">Shop the Collection</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="eyebrow">Two Lines. One Vision.</div>
+      <h2 style="font-family:'Playfair Display',serif; font-size:36px; margin-bottom:40px;">Lifestyle Meets Performance</h2>
+      <div class="grid-2">
+
+        <!-- Lifestyle Line -->
+        <div class="apparel-line">
+          <div class="apparel-line-header" style="background:var(--warm-50);">
+            <div style="font-size:40px; margin-bottom:16px;">🌿</div>
+            <div class="apparel-line-title">The Lifestyle Line</div>
+            <div class="apparel-line-sub">Heritage & Comfort Collection</div>
+            <p class="apparel-line-desc">Soft, wearable Alaska identity pieces. The kind of gear you reach for the morning after a long fishing day — at the lodge, around the fire, or back home telling the story.</p>
+          </div>
+          <div class="apparel-line-body">
+            <div class="apparel-product">
+              <div class="apparel-product-icon">🎋</div>
+              <div>
+                <div class="apparel-product-name">Bamboo Heritage Hoodie</div>
+                <div class="apparel-product-desc">Ultra-soft bamboo blend · The Last Frontier Collection logo · Unisex sizing</div>
+              </div>
+              <div class="apparel-product-badge"><div class="chip chip-gold">Flagship</div></div>
+            </div>
+            <div class="apparel-product">
+              <div class="apparel-product-icon">👕</div>
+              <div>
+                <div class="apparel-product-name">Alaska Circuit Tee</div>
+                <div class="apparel-product-desc">Organic cotton · Circuit map print on back · Available in 6 colors</div>
+              </div>
+            </div>
+            <div class="apparel-product">
+              <div class="apparel-product-icon">🧢</div>
+              <div>
+                <div class="apparel-product-name">Kenai River Cap</div>
+                <div class="apparel-product-desc">Low-profile trucker · Embroidered trout · Snapback</div>
+              </div>
+            </div>
+            <div class="apparel-product">
+              <div class="apparel-product-icon">🧣</div>
+              <div>
+                <div class="apparel-product-name">Last Frontier Neck Gaiter</div>
+                <div class="apparel-product-desc">Moisture-wicking · Alaska mountain print · Wear 12 ways</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Elite Angler Line -->
+        <div class="apparel-line">
+          <div class="apparel-line-header" style="background:var(--forest-bg);">
+            <div style="font-size:40px; margin-bottom:16px;">🎣</div>
+            <div class="apparel-line-title">The Elite Angler Line</div>
+            <div class="apparel-line-sub">Technical Performance Collection</div>
+            <p class="apparel-line-desc">Purpose-built technical fishing apparel co-developed with Dave Lisi's guiding insights. Gear that performs at 6am on the Upper Kenai and still looks sharp at dinner on the Homer Spit.</p>
+          </div>
+          <div class="apparel-line-body">
+            <div class="apparel-product">
+              <div class="apparel-product-icon">🧤</div>
+              <div>
+                <div class="apparel-product-name">Elite Angler Sun Shirt</div>
+                <div class="apparel-product-desc">UPF 50+ · Moisture-wicking · Vented back · Guide-grade quality</div>
+              </div>
+              <div class="apparel-product-badge"><div class="chip chip-forest">Core</div></div>
+            </div>
+            <div class="apparel-product">
+              <div class="apparel-product-icon">🦺</div>
+              <div>
+                <div class="apparel-product-name">Circuit Guide Vest</div>
+                <div class="apparel-product-desc">14-pocket fly fishing vest · Last Frontier Collection branding · Water resistant</div>
+              </div>
+            </div>
+            <div class="apparel-product">
+              <div class="apparel-product-icon">🧥</div>
+              <div>
+                <div class="apparel-product-name">Kenai Performance Jacket</div>
+                <div class="apparel-product-desc">Packable shell · Waterproof · Wind-resistant · Pack-to-pocket design</div>
+              </div>
+            </div>
+            <div class="apparel-product">
+              <div class="apparel-product-icon">🪝</div>
+              <div>
+                <div class="apparel-product-name">Elite Angler Buff</div>
+                <div class="apparel-product-desc">UV protection · Breathable mesh · Salmon print design</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section" style="background:var(--warm-50);">
+    <div class="container">
+      <div class="grid-2" style="gap:40px;">
+        <div class="card">
+          <div style="font-size:28px; margin-bottom:16px;">🛒</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:22px; margin-bottom:12px;">Shopify E-Commerce Integration</h3>
+          <p style="font-size:13px; color:var(--warm-500); line-height:1.65; margin-bottom:16px;">The apparel shop lives inside the Last Frontier Collection platform, fully integrated into the unified booking checkout. Guests can add lifestyle or technical gear to their booking cart alongside lodge nights and guide days.</p>
+          <div class="feature-list">
+            <div class="feature-item"><div class="feature-bullet"></div> Prompted at post-booking confirmation email</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Also browsable as a standalone shop</div>
+            <div class="feature-item"><div class="feature-bullet"></div> Ships direct to home after your Alaska trip</div>
+          </div>
+        </div>
+        <div class="card" style="background:var(--ink); color:var(--white);">
+          <div style="font-size:28px; margin-bottom:16px;">💰</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:22px; margin-bottom:12px; color:var(--white);">High-Margin Revenue Layer</h3>
+          <p style="font-size:13px; color:rgba(255,255,255,0.65); line-height:1.65; margin-bottom:16px;">Apparel is the 5th revenue layer of the Last Frontier Collection — high-margin, low-overhead, and driven by the passionate fishing community Dave Lisi has built on YouTube. Every piece sells the Alaska identity to guests long after the trip ends.</p>
+          <div class="feature-list">
+            <div class="feature-item"><div class="feature-bullet" style="background:var(--gold-light);"></div> <span style="color:rgba(255,255,255,0.75);">Lifestyle line targets casual alaska travelers</span></div>
+            <div class="feature-item"><div class="feature-bullet" style="background:var(--gold-light);"></div> <span style="color:rgba(255,255,255,0.75);">Elite Angler targets Dave's YouTube audience</span></div>
+            <div class="feature-item"><div class="feature-bullet" style="background:var(--gold-light);"></div> <span style="color:rgba(255,255,255,0.75);">Living brand ambassadors wearing the collection</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="booking-block">
+        <div>
+          <h3>Shop the Last Frontier Collection</h3>
+          <p>Available as a standalone shop and integrated into the unified booking checkout — coming with the full platform launch in 2026.</p>
+        </div>
+        <button class="btn-gold">Visit the Shop →</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end apparel -->
+
+
+<!-- ══════════════════════════════════════════════
+     EXTRA ACTIVITIES PAGE
+══════════════════════════════════════════════ -->
+<div id="page-activities" class="page">
+
+  <div class="page-hero" style="background:linear-gradient(135deg, #EEF4EE 0%, #E8EFE8 100%); border-bottom:1px solid var(--forest-border);">
+    <div class="page-hero-bg"></div>
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="eyebrow">Beyond the Fishing</div>
+      <h1 class="page-title">Extra Activities &<br>Experiences</h1>
+      <p class="page-subtitle">The Alaska Circuit isn't only about fishing. From bear viewing and sea kayaking to glacier hikes and wildlife safaris — the Kenai Peninsula offers a full spectrum of extraordinary experiences.</p>
+    </div>
+  </div>
+
+  <!-- Activities by Node -->
+  <div class="section">
+    <div class="container">
+      <div class="eyebrow">At The Hub · Cooper Landing</div>
+      <h2 style="font-family:'Playfair Display',serif; font-size:32px; margin-bottom:32px;">Cooper Landing Activities</h2>
+      <div class="grid-3" style="margin-bottom:64px;">
+        <div class="activity-card">
+          <div class="activity-icon">🚣</div>
+          <div class="activity-title">Kenai River Float Trips</div>
+          <div class="activity-loc">Cooper Landing · Spring–Fall</div>
+          <p class="activity-desc">Drift the upper Kenai in a guided raft — a spectacular float through the canyon with towering peaks, wildlife sightings, and emerald glacier-fed water. Perfect for non-anglers in the group.</p>
+        </div>
+        <div class="activity-card">
+          <div class="activity-icon">🏔️</div>
+          <div class="activity-title">Kenai Mountains Hiking</div>
+          <div class="activity-loc">Cooper Landing · Summer</div>
+          <p class="activity-desc">Cooper Landing sits at the gateway to the Kenai Mountains. Day hikes to alpine lakes, ridge walks with panoramic views, and backcountry trails accessible directly from the lodge.</p>
+        </div>
+        <div class="activity-card">
+          <div class="activity-icon">🐻</div>
+          <div class="activity-title">Bear Viewing at Kenai NWR</div>
+          <div class="activity-loc">Kenai National Wildlife Refuge</div>
+          <p class="activity-desc">The Kenai National Wildlife Refuge surrounds Cooper Landing. Black bear and moose sightings are routine. Guided bear viewing tours available through the concierge portal.</p>
+        </div>
+      </div>
+
+      <div class="eyebrow">At The Corridor · Soldotna</div>
+      <h2 style="font-family:'Playfair Display',serif; font-size:32px; margin-bottom:32px;">Soldotna Activities</h2>
+      <div class="grid-3" style="margin-bottom:64px;">
+        <div class="activity-card">
+          <div class="activity-icon">🦅</div>
+          <div class="activity-title">Bald Eagle Watching</div>
+          <div class="activity-loc">Soldotna / Kenai River</div>
+          <p class="activity-desc">The Lower Kenai corridor hosts one of North America's highest concentrations of bald eagles. During salmon season, they congregate by the hundreds along the river banks.</p>
+        </div>
+        <div class="activity-card">
+          <div class="activity-icon">🧘</div>
+          <div class="activity-title">Active Recovery & Wellness</div>
+          <div class="activity-loc">Keen Eye Property</div>
+          <p class="activity-desc">The Keen Eye property is specifically designed for mid-circuit recovery — gear drying facilities, stretching areas, hot tub access, and guided yoga sessions available on request.</p>
+        </div>
+        <div class="activity-card">
+          <div class="activity-icon">🌊</div>
+          <div class="activity-title">Kasilof River Add-On</div>
+          <div class="activity-loc">Kasilof · 20 min from Soldotna</div>
+          <p class="activity-desc">The Kasilof River, just south of Soldotna, offers a quieter combat fishing experience for King Salmon — an excellent day-trip add-on during your Soldotna stay.</p>
+        </div>
+      </div>
+
+      <div class="eyebrow">At The Terminus · Homer</div>
+      <h2 style="font-family:'Playfair Display',serif; font-size:32px; margin-bottom:32px;">Homer Activities</h2>
+      <div class="grid-3">
+        <div class="activity-card">
+          <div class="activity-icon">🦦</div>
+          <div class="activity-title">Kachemak Bay Sea Kayaking</div>
+          <div class="activity-loc">Kachemak Bay State Park</div>
+          <p class="activity-desc">Paddle through Kachemak Bay State Park — one of Alaska's most pristine marine environments. Sea otters, harbor seals, puffins, and stunning glacier views from water level.</p>
+        </div>
+        <div class="activity-card">
+          <div class="activity-icon">🧊</div>
+          <div class="activity-title">Glacier Viewing & Tours</div>
+          <div class="activity-loc">Kachemak Bay · Grewingk Glacier</div>
+          <p class="activity-desc">Grewingk Glacier is accessible by water taxi across the bay. Walk on the glacier, hike to the toe, or take a guided glacier trek — an otherworldly experience at the circuit's end.</p>
+        </div>
+        <div class="activity-card">
+          <div class="activity-icon">🐦</div>
+          <div class="activity-title">Puffin & Wildlife Boat Tours</div>
+          <div class="activity-loc">Homer Spit · Gull Island</div>
+          <p class="activity-desc">Gull Island wildlife tours depart from Homer Spit to view massive colonies of Tufted Puffins, Horned Puffins, kittiwakes, and murres — a uniquely Alaskan wildlife spectacle.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Concierge add-ons -->
+  <div class="section" style="background:var(--warm-50);">
+    <div class="container">
+      <div class="eyebrow">White Glove Experiences</div>
+      <h2 style="font-family:'Playfair Display',serif; font-size:36px; margin-bottom:16px;">Concierge-Booked Add-Ons</h2>
+      <p style="font-size:14px; color:var(--warm-500); max-width:560px; line-height:1.7; margin-bottom:40px;">All extra activities can be arranged through the Last Frontier Collection's White Glove Concierge service — pre-booked, pre-paid, and waiting for you at each node.</p>
+      <div class="grid-4">
+        <div class="card" style="text-align:center;">
+          <div style="font-size:32px; margin-bottom:12px;">✈️</div>
+          <div style="font-family:'Playfair Display',serif; font-size:16px; margin-bottom:6px;">Flightseeing Tours</div>
+          <p style="font-size:12px; color:var(--warm-400); line-height:1.5;">Aerial views of the Kenai Peninsula, Harding Icefield, and Kachemak Bay</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="font-size:32px; margin-bottom:12px;">🍷</div>
+          <div style="font-family:'Playfair Display',serif; font-size:16px; margin-bottom:6px;">Private Chef Dinners</div>
+          <p style="font-size:12px; color:var(--warm-400); line-height:1.5;">Freshly caught fish prepared at the lodge by a private chef — served with premium wine pairings</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="font-size:32px; margin-bottom:12px;">📸</div>
+          <div style="font-family:'Playfair Display',serif; font-size:16px; margin-bottom:6px;">Trip Photography</div>
+          <p style="font-size:12px; color:var(--warm-400); line-height:1.5;">A professional photographer on your guide day — professionally edited photos delivered within a week</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="font-size:32px; margin-bottom:12px;">📦</div>
+          <div style="font-family:'Playfair Display',serif; font-size:16px; margin-bottom:6px;">Fish Processing & Shipping</div>
+          <p style="font-size:12px; color:var(--warm-400); line-height:1.5;">Your catch vacuum-sealed, frozen, and shipped directly to your front door anywhere in the lower 48</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="booking-block">
+        <div>
+          <h3>Arrange Extra Activities</h3>
+          <p>All add-on experiences are bookable through the White Glove Concierge portal — available with any lodging booking at any of the three circuit nodes.</p>
+        </div>
+        <button class="btn-gold" onclick="showPage('app')">View Concierge Portal →</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end activities -->
+
+
+<!-- ══════════════════════════════════════════════
+     OPPORTUNITIES PAGE — MASTER GAP MATRIX
+══════════════════════════════════════════════ -->
+<div id="page-opportunities" class="page">
+
+  <div class="page-hero" style="background: linear-gradient(135deg, #FFFDF5 0%, #F8F2E4 100%); border-bottom: 1px solid var(--warm-200);">
+    <div class="page-hero-bg"></div>
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="eyebrow">Master Gap Matrix — All 3 Nodes</div>
+      <h1 class="page-title">The Opportunity Map</h1>
+      <p class="page-subtitle">A full audit of where the Last Frontier Collection stands today versus where it needs to be — gaps in booking, revenue capture, marketing, operations, and technology across every node.</p>
+      <div style="display:flex; gap:12px; margin-top:32px; flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:4px;background:var(--forest-bg);border:1px solid var(--forest-border);">
+          <div style="width:10px;height:10px;border-radius:50%;background:#2A5230;"></div>
+          <span style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--forest-text);font-family:'Space Mono',monospace;">Solved</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:4px;background:#FFF8E8;border:1px solid #E8D090;">
+          <div style="width:10px;height:10px;border-radius:50%;background:#9A7020;"></div>
+          <span style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#9A7020;font-family:'Space Mono',monospace;">In Progress</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:4px;background:#FFF0F0;border:1px solid #E8C0C0;">
+          <div style="width:10px;height:10px;border-radius:50%;background:#A03030;"></div>
+          <span style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#A03030;font-family:'Space Mono',monospace;">Gap / Open</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:4px;background:#F0F4FF;border:1px solid #C0CCEE;">
+          <div style="width:10px;height:10px;border-radius:50%;background:#304090;"></div>
+          <span style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#304090;font-family:'Space Mono',monospace;">Opportunity</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MATRIX TABLE ─────────────────────────── -->
+  <div class="section">
+    <div class="container">
+      <div class="eyebrow">The Full Matrix</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:36px;margin-bottom:40px;">Current State vs. Required State</h2>
+
+      <div style="overflow-x:auto; border:1px solid var(--warm-200); border-radius:6px; box-shadow:var(--shadow-sm);">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;min-width:900px;">
+          <thead>
+            <tr style="background:var(--ink);color:var(--white);">
+              <th style="padding:16px 20px;text-align:left;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;font-weight:700;width:18%;">Gap Category</th>
+              <th style="padding:16px 20px;text-align:left;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;font-weight:700;width:22%;">Current State</th>
+              <th style="padding:16px 20px;text-align:left;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;font-weight:700;width:22%;">Required State</th>
+              <th style="padding:16px 14px;text-align:center;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;font-weight:700;width:10%;">🏔️ Cooper</th>
+              <th style="padding:16px 14px;text-align:center;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;font-weight:700;width:10%;">🎣 Soldotna</th>
+              <th style="padding:16px 14px;text-align:center;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;font-weight:700;width:10%;">🌊 Homer</th>
+              <th style="padding:16px 14px;text-align:center;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;font-weight:700;width:8%;">Priority</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <!-- BOOKING -->
+            <tr style="background:#F5F0E8;">
+              <td colspan="7" style="padding:10px 20px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);font-weight:700;">📅 BOOKING SYSTEM</td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">Direct Booking Engine</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Alaska Heavenly Lodge has FareHarbor. Moose & Spruce and Just Fish Inn on Airbnb/VRBO.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">All 3 nodes on direct FareHarbor booking through lastfrontiercollection.com — zero OTA dependency.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:var(--forest-bg);color:var(--forest-text);border:1px solid var(--forest-border);padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">✓ Live</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#A03030;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P1</span></td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);background:var(--warm-50);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">OTA Commission Drain</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Moose & Spruce + Just Fish Inn paying 15%+ per booking to Airbnb/VRBO on every reservation.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">100% direct booking. 15%+ commission recaptured and reinvested in guest experience + marketing.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:var(--forest-bg);color:var(--forest-text);border:1px solid var(--forest-border);padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">N/A</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Bleeding</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Bleeding</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#A03030;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P1</span></td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">Unified Cart Checkout</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">No cross-selling exists. Lodge, guide, and fleet are booked separately across different platforms with no connection.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Single checkout session: lodge + guide + Bronco + concierge + apparel in one unified cart.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#A03030;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P1</span></td>
+            </tr>
+
+            <!-- REVENUE -->
+            <tr style="background:#F5F0E8;">
+              <td colspan="7" style="padding:10px 20px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);font-weight:700;">💰 REVENUE CAPTURE</td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);background:var(--warm-50);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">Guided Fishing Revenue</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Dave Lisi guides are booked through FareHarbor but not consistently cross-sold with lodging bookings.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Every lodging booking auto-prompts a guided fishing add-on. Guide days linked in real time to lodge availability.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF8E8;color:#9A7020;border:1px solid #E8D090;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Partial</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#A03030;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P1</span></td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">Fleet Rental Revenue</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">2024 Ford Broncos exist but are not systematically offered at booking — guests don't know they're available.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Gear-Ready Bronco rental prompted at checkout for every lodging or guide booking. Dedicated fleet booking page.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#9A7020;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P2</span></td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);background:var(--warm-50);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">Concierge / White Glove</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">$500–$1,500 White Glove service exists informally but is not offered as a structured, bookable product online.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Dedicated concierge portal page. Clearly priced tiers. Bookable at checkout with intake form for all 3 nodes.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#9A7020;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P2</span></td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">Apparel E-Commerce</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">No branded apparel line exists. Revenue opportunity completely untapped. YouTube audience has no merch to buy.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Lifestyle + Elite Angler lines live in Shopify store, integrated into booking checkout and post-booking email sequence.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#F0F4FF;color:#304090;border:1px solid #C0CCEE;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Opp</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#F0F4FF;color:#304090;border:1px solid #C0CCEE;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Opp</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#F0F4FF;color:#304090;border:1px solid #C0CCEE;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Opp</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#304090;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P3</span></td>
+            </tr>
+
+            <!-- MARKETING -->
+            <tr style="background:#F5F0E8;">
+              <td colspan="7" style="padding:10px 20px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);font-weight:700;">📡 MARKETING & TRAFFIC</td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);background:var(--warm-50);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">Unified Master Domain</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Properties exist on separate URLs (AlaskaHeavenlyLodge.com, CooperLandingFishingGuide.com). No master brand domain.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">lastfrontiercollection.com live as master hub. Existing domain authority bridges via 301 redirects or canonical tags.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#A03030;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P1</span></td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">YouTube → Booking Funnel</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">5.8K+ YouTube subscribers with no direct booking link in bio or video descriptions to a unified platform.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">YouTube bio links directly to lastfrontiercollection.com. CTAs in video descriptions drive to node-specific landing pages.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF8E8;color:#9A7020;border:1px solid #E8D090;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Partial</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#A03030;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P1</span></td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);background:var(--warm-50);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">SEO — Node Landing Pages</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">No dedicated SEO pages for "Kenai River Lodging," "Soldotna Cabin Rentals," or "Homer Halibut Charters."</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Each node has a keyword-optimized landing page targeting its primary search terms with rich media and direct booking embed.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF8E8;color:#9A7020;border:1px solid #E8D090;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Partial</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#9A7020;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P2</span></td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">Google Business Profiles</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Individual property profiles likely claimed but not connected or consistently managed under the Collection brand.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">All 3 nodes have fully optimized Google Business profiles pointing to lastfrontiercollection.com node pages.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF8E8;color:#9A7020;border:1px solid #E8D090;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Partial</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF8E8;color:#9A7020;border:1px solid #E8D090;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Partial</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF8E8;color:#9A7020;border:1px solid #E8D090;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Partial</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#9A7020;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P2</span></td>
+            </tr>
+
+            <!-- OPERATIONS -->
+            <tr style="background:#F5F0E8;">
+              <td colspan="7" style="padding:10px 20px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);font-weight:700;">⚙️ OPERATIONS & GUEST EXPERIENCE</td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);background:var(--warm-50);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">Post-Booking Intake Flow</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">No structured post-booking intake. Guests arrive without having communicated preferences, gear needs, or food requests.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">"Stocked Fridge" intake form auto-sent after booking confirmation. Grocery/spirits pre-ordered and stocked on arrival.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#9A7020;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P2</span></td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">Fish Processing & Shipping</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Guests catch fish with no clear system for vacuum-sealing, freezing, or shipping their catch home to the lower 48.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Catch processing + overnight shipping offered as a bookable add-on at Homer and Soldotna. Priced and promoted on node pages.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#F0F4FF;color:#304090;border:1px solid #C0CCEE;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Opp</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#F0F4FF;color:#304090;border:1px solid #C0CCEE;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Opp</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#F0F4FF;color:#304090;border:1px solid #C0CCEE;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Opp</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#304090;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P3</span></td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);background:var(--warm-50);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">Multi-Night Circuit Package</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">No bundled 3-node Alaska Circuit package exists. Each property is booked and priced independently.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">"The Full Alaska Circuit" 7–10 night package: all 3 nodes + guide days + Bronco + concierge in one discounted bundle.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#F0F4FF;color:#304090;border:1px solid #C0CCEE;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Opp</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#F0F4FF;color:#304090;border:1px solid #C0CCEE;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Opp</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#F0F4FF;color:#304090;border:1px solid #C0CCEE;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Opp</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#304090;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P2</span></td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">Airport Transfer System</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Guests arrange their own transport from Anchorage airport to Cooper Landing. No branded transfer option exists.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">White Glove tier includes branded Bronco airport transfer from Ted Stevens International → Cooper Landing. Bookable online.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#F0F4FF;color:#304090;border:1px solid #C0CCEE;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Opp</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#F0F4FF;color:#304090;border:1px solid #C0CCEE;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Opp</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#F0F4FF;color:#304090;border:1px solid #C0CCEE;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Opp</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#304090;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P3</span></td>
+            </tr>
+
+            <!-- TECH -->
+            <tr style="background:#F5F0E8;">
+              <td colspan="7" style="padding:10px 20px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);font-weight:700;">🖥️ TECHNOLOGY & PLATFORM</td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);background:var(--warm-50);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">Mobile-First Website</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Existing property sites are not optimized for mobile. Dave's YouTube audience (high mobile) hits a poor booking experience.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Mobile-first design across all node pages. Sub-3 second load time. Thumb-friendly booking flow for YouTube traffic.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#A03030;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P1</span></td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">Interactive Circuit Map</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">No interactive map of the 3-node circuit exists anywhere. Guests have no visual to understand the full Alaska Circuit concept.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Custom GPS-pin map on the home page with clickable nodes, photo galleries, and live availability — the visual brand anchor.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#9A7020;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P2</span></td>
+            </tr>
+
+            <tr style="border-bottom:1px solid var(--warm-100);background:var(--warm-50);">
+              <td style="padding:14px 20px;font-weight:500;color:var(--ink);">Email Automation</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">No post-booking email sequence. No pre-arrival tips. No post-trip follow-up asking for reviews or promoting apparel/re-booking.</td>
+              <td style="padding:14px 20px;color:var(--warm-500);">Automated 4-part email sequence: booking confirm → stocked fridge intake → pre-arrival guide → post-trip review request + apparel offer.</td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#FFF0F0;color:#A03030;border:1px solid #E8C0C0;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600;">Gap</span></td>
+              <td style="padding:14px;text-align:center;"><span style="background:#9A7020;color:white;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;">P2</span></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Priority Summary Cards -->
+  <div class="section" style="background:var(--warm-50);">
+    <div class="container">
+      <div class="eyebrow">Priority Summary</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:36px;margin-bottom:40px;">Where to Focus First</h2>
+      <div class="grid-3">
+
+        <div style="background:var(--white);border:1px solid #E8C0C0;border-top:3px solid #A03030;border-radius:6px;padding:32px;box-shadow:var(--shadow-sm);">
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#A03030;margin-bottom:12px;">P1 — Do This First</div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:16px;">Revenue Bleeding Stopped</h3>
+          <div class="feature-list">
+            <div class="feature-item"><div class="feature-bullet" style="background:#A03030;"></div> Move Moose & Spruce off Airbnb/VRBO</div>
+            <div class="feature-item"><div class="feature-bullet" style="background:#A03030;"></div> Move Just Fish Inn off Airbnb/VRBO</div>
+            <div class="feature-item"><div class="feature-bullet" style="background:#A03030;"></div> Launch lastfrontiercollection.com</div>
+            <div class="feature-item"><div class="feature-bullet" style="background:#A03030;"></div> Unify all 3 nodes under FareHarbor</div>
+            <div class="feature-item"><div class="feature-bullet" style="background:#A03030;"></div> Link YouTube channel to master domain</div>
+            <div class="feature-item"><div class="feature-bullet" style="background:#A03030;"></div> Mobile-first UX for YouTube traffic</div>
+          </div>
+        </div>
+
+        <div style="background:var(--white);border:1px solid #E8D090;border-top:3px solid #9A7020;border-radius:6px;padding:32px;box-shadow:var(--shadow-sm);">
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#9A7020;margin-bottom:12px;">P2 — Build the Machine</div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:16px;">Revenue Engine Running</h3>
+          <div class="feature-list">
+            <div class="feature-item"><div class="feature-bullet" style="background:#9A7020;"></div> Unified cart cross-selling at checkout</div>
+            <div class="feature-item"><div class="feature-bullet" style="background:#9A7020;"></div> Fleet rental offered at booking</div>
+            <div class="feature-item"><div class="feature-bullet" style="background:#9A7020;"></div> Concierge portal with clear pricing</div>
+            <div class="feature-item"><div class="feature-bullet" style="background:#9A7020;"></div> Post-booking stocked fridge intake</div>
+            <div class="feature-item"><div class="feature-bullet" style="background:#9A7020;"></div> SEO landing pages per node</div>
+            <div class="feature-item"><div class="feature-bullet" style="background:#9A7020;"></div> Email automation sequence (4-part)</div>
+          </div>
+        </div>
+
+        <div style="background:var(--white);border:1px solid #C0CCEE;border-top:3px solid #304090;border-radius:6px;padding:32px;box-shadow:var(--shadow-sm);">
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#304090;margin-bottom:12px;">P3 — Scale the Brand</div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:16px;">Revenue Growing</h3>
+          <div class="feature-list">
+            <div class="feature-item"><div class="feature-bullet" style="background:#304090;"></div> Lifestyle + Elite Angler apparel launch</div>
+            <div class="feature-item"><div class="feature-bullet" style="background:#304090;"></div> 3-node circuit bundle package</div>
+            <div class="feature-item"><div class="feature-bullet" style="background:#304090;"></div> Fish processing + home shipping</div>
+            <div class="feature-item"><div class="feature-bullet" style="background:#304090;"></div> Airport-to-lodge branded transfers</div>
+            <div class="feature-item"><div class="feature-bullet" style="background:#304090;"></div> Flightseeing + wildlife tour add-ons</div>
+            <div class="feature-item"><div class="feature-bullet" style="background:#304090;"></div> Trip photography as bookable service</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Revenue Opportunity Estimate -->
+  <div class="section">
+    <div class="container">
+      <div class="eyebrow">The Business Case</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:36px;margin-bottom:40px;">What Closing These Gaps Is Worth</h2>
+      <div class="grid-4">
+        <div class="card" style="border-top:3px solid #A03030;text-align:center;">
+          <div style="font-size:28px;margin-bottom:10px;">💸</div>
+          <div style="font-family:'Playfair Display',serif;font-size:32px;color:#A03030;margin-bottom:4px;">15%+</div>
+          <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--warm-400);margin-bottom:10px;">Per Booking Reclaimed</div>
+          <p style="font-size:12px;color:var(--warm-500);line-height:1.5;">Moving 2 properties off OTAs returns 15%+ commission on every single reservation — compounding across the season.</p>
+        </div>
+        <div class="card" style="border-top:3px solid #9A7020;text-align:center;">
+          <div style="font-size:28px;margin-bottom:10px;">🛒</div>
+          <div style="font-family:'Playfair Display',serif;font-size:32px;color:#9A7020;margin-bottom:4px;">5×</div>
+          <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--warm-400);margin-bottom:10px;">Revenue Per Guest</div>
+          <p style="font-size:12px;color:var(--warm-500);line-height:1.5;">A guest who books lodge + guide + Bronco + concierge + apparel is worth 5× more than a lodge-only booking.</p>
+        </div>
+        <div class="card" style="border-top:3px solid #304090;text-align:center;">
+          <div style="font-size:28px;margin-bottom:10px;">📺</div>
+          <div style="font-family:'Playfair Display',serif;font-size:32px;color:#304090;margin-bottom:4px;">5.8K</div>
+          <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--warm-400);margin-bottom:10px;">Warm Leads Waiting</div>
+          <p style="font-size:12px;color:var(--warm-500);line-height:1.5;">5,800+ YouTube subscribers already know and trust Dave Lisi. A direct booking link turns passive viewers into paying guests.</p>
+        </div>
+        <div class="card" style="border-top:3px solid var(--gold);text-align:center;">
+          <div style="font-size:28px;margin-bottom:10px;">🏔️</div>
+          <div style="font-family:'Playfair Display',serif;font-size:32px;color:var(--gold);margin-bottom:4px;">3</div>
+          <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--warm-400);margin-bottom:10px;">Nodes. One Brand.</div>
+          <p style="font-size:12px;color:var(--warm-500);line-height:1.5;">Three separate businesses become one powerful, cross-selling ecosystem — each node making the others more valuable.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end opportunities -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">The Last Frontier Collection</div>
+      <div class="footer-brand-tag">Flight to Finish · Alaska's Premier Experience Ecosystem</div>
+    </div>
+    <div class="footer-nodes">
+      <div class="footer-node">
+        <div class="footer-node-name">🏔️ Alaska Heavenly Lodge</div>
+        <div class="footer-node-loc">Cooper Landing · The Hub</div>
+      </div>
+      <div class="footer-node">
+        <div class="footer-node-name">🎣 Moose & Spruce / Keen Eye</div>
+        <div class="footer-node-loc">Soldotna · The Corridor</div>
+      </div>
+      <div class="footer-node">
+        <div class="footer-node-name">🌊 Just Fish Inn</div>
+        <div class="footer-node-loc">Homer · The Terminus</div>
+      </div>
+      <div class="footer-node">
+        <div class="footer-node-name">🚙 The Fleet</div>
+        <div class="footer-node-loc">2024 Ford Broncos · Circuit Transport</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">Founded by David Lisi · <a href="#">lastfrontiercollection.com</a></div>
+    <div class="footer-copy" style="color:rgba(255,255,255,0.3);">System Platform v2.0 · Built for the 2026 Alaska Booking Season</div>
+  </div>
+</footer>
+
+<script>
+function showPage(id) {
+  // hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+
+  // show selected
+  document.getElementById('page-' + id).classList.add('active');
+
+  // activate tab
+  const tabs = document.querySelectorAll('.nav-tab');
+  const order = ['home','cooper','soldotna','homer','fishing','transport','app','apparel','activities','opportunities'];
+  const idx = order.indexOf(id);
+  if (idx >= 0 && tabs[idx]) tabs[idx].classList.add('active');
+
+  // scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Scroll entrance animations
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.card, .node-preview, .species-card, .app-feature, .activity-card, .apparel-line, .route-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(16px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>
